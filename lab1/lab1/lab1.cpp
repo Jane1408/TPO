@@ -2,20 +2,23 @@
 //
 
 #include "stdafx.h"
+#include <cctype> 
 #include "Triangle.h"
 
 
 
 bool IsCorrectValue(std::string const& value)
 {
-	if ((value == "0") || (value == "0.0"))
+	for (size_t i = 0; i < value.length(); i++)
 	{
-		return true;
-	}
-	double num = std::atof(value.c_str());
-	if (num <= 0)
-	{
-		return false;
+		if ((value[i] == ',') && (i != 0) && (i != value.length() - 1))
+		{
+			continue;
+		}
+		if (!isdigit(value[i]))
+		{
+			return false;
+		}
 	}
 	return true;
 }
@@ -82,7 +85,7 @@ int main(int argc, char * argv[])
 	{
 		for (size_t i = 0; i < arguments.size(); i++)
 		{
-			double value = std::atof(arguments[i].c_str());
+			double value = std::strtof(arguments[i].c_str(), nullptr);
 			lengthsOfSides.push_back(value);
 		}
 
